@@ -1,6 +1,12 @@
 //use rand::Rng;
 use std::io;
 
+fn treat_input(mut input: String) -> String {
+    input = input.trim().to_string();
+    input.truncate(1);
+    return input;
+}
+
 fn get_input() -> String {
     println!("Waiting on input...");
 
@@ -10,7 +16,7 @@ fn get_input() -> String {
         .read_line(&mut input)
         .expect("Failed to read line");
 
-    input = input.trim().to_string();
+    input = treat_input(input);
 
     return input;
 }
