@@ -8,14 +8,23 @@ fn parse(expression: &str) -> String {
         if c.is_numeric() || operands.contains(c) {
             math_expression.push(c);
         }
+        else {
+            math_expression = "Invalid Character".to_string();
+        }
     }
     return math_expression;
 }
 
 
 fn treat_input(mut input: String) -> String {
+    // lose the newlines and whitespace
     input = input.trim().to_string();
+
+    // only keep first character of string
     input.truncate(1);
+
+    input = parse(&input);
+
     return input;
 }
 
@@ -36,14 +45,13 @@ fn get_input() -> String {
 
 fn main() {
     println!("Wrongculator is now active!");
-    let mut current_expression = String::new();
 
     loop {
         let input = get_input();
-        current_expression = format!("{current_expression}{input}");
-        let math_expression = parse(&current_expression);
-        println!("Your input: {input}");
-        println!("Your expression: {current_expression}");
-        println!("Your math expression: {math_expression}");
+        //println!("Your input: {input}");
+        //println!("Your expression: {current_expression}");
+        println!("Your math expression: {input}");
+        let result = 2;
+        println!("Result = {result}");
     };
 }
