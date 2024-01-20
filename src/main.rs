@@ -2,8 +2,17 @@ mod constants;
 
 use shunting::MathContext;
 use shunting::ShuntingParser;
-//use rand::Rng;
+use rand::Rng;
 use std::io;
+
+
+fn wrongculate(mut result: f64) -> f64 {
+    let limit: f64 = (result * constants::WRONGCULATE_RANGE).abs();
+    let random_number: f64 = rand::thread_rng().gen_range(-limit..limit);
+    result += random_number;
+
+    return result;
+}
 
 fn parse(expression: &str) -> String {
     let mut math_expression = String::new();
@@ -58,7 +67,11 @@ fn main() {
 
         let expression = ShuntingParser::parse_str(&input).unwrap();
 
-        let result = MathContext::new().eval(&expression).unwrap();
+        let mut result = MathContext::new().eval(&expression).unwrap();
+
+        if rand::random() {
+            result = wrongculate(result);
+        }
 
         println!("{input} = {result}");
     };
