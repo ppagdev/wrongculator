@@ -1,19 +1,9 @@
 mod constants;
 
+use shunting::MathContext;
+use shunting::ShuntingParser;
 //use rand::Rng;
 use std::io;
-
-fn evaluate(input: &str) {
-    println!("{input} is ");
-    for c in input.chars() {
-        if c.is_numeric() {
-            println!("a number.");
-        }
-        else {
-            println!("an operand.");
-        }
-    }
-}
 
 fn parse(expression: &str) -> String {
     let mut math_expression = String::new();
@@ -23,8 +13,10 @@ fn parse(expression: &str) -> String {
         }
         else {
             math_expression = constants::ERROR_MESSAGE.to_string();
+            return math_expression;
         }
     }
+
     return math_expression;
 }
 
@@ -32,9 +24,6 @@ fn parse(expression: &str) -> String {
 fn treat_input(mut input: String) -> String {
     // lose the newlines and whitespace
     input = input.trim().to_string();
-
-    // only keep first character of string
-    input.truncate(1);
 
     input = parse(&input);
 
@@ -67,9 +56,10 @@ fn main() {
             continue;
         }
 
-        evaluate(&input);
+        let expression = ShuntingParser::parse_str(&input).unwrap();
 
-        let result = 2;
-        println!("Result = {result}");
+        let result = MathContext::new().eval(&expression).unwrap();
+
+        println!("{input} = {result}");
     };
 }
