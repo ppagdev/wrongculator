@@ -1,15 +1,28 @@
+mod constants;
+
 //use rand::Rng;
 use std::io;
 
+fn evaluate(input: &str) {
+    println!("{input} is ");
+    for c in input.chars() {
+        if c.is_numeric() {
+            println!("a number.");
+        }
+        else {
+            println!("an operand.");
+        }
+    }
+}
+
 fn parse(expression: &str) -> String {
-    let operands = "+-*/";
     let mut math_expression = String::new();
     for c in expression.chars() {
-        if c.is_numeric() || operands.contains(c) {
+        if c.is_numeric() || constants::OPERANDS.contains(c) {
             math_expression.push(c);
         }
         else {
-            math_expression = "Invalid Character".to_string();
+            math_expression = constants::ERROR_MESSAGE.to_string();
         }
     }
     return math_expression;
@@ -44,13 +57,18 @@ fn get_input() -> String {
 
 
 fn main() {
-    println!("Wrongculator is now active!");
+    println!("WRONGCULATOR IS NOW ACTIVE!!!");
 
     loop {
         let input = get_input();
-        //println!("Your input: {input}");
-        //println!("Your expression: {current_expression}");
-        println!("Your math expression: {input}");
+
+        println!("You entered: {input}");
+        if input == constants::ERROR_MESSAGE {
+            continue;
+        }
+
+        evaluate(&input);
+
         let result = 2;
         println!("Result = {result}");
     };
